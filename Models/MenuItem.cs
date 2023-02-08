@@ -17,5 +17,9 @@ namespace FoodDelivery.Models
         [ForeignKey("MenuItemCategory")]
         public int MenuItemCategoryId { get; set; }
         public virtual MenuItemCategory MenuItemCategory { get; private set; }
+
+        [ForeignKey("Restaurant")]
+        public int RestaurantId { get; set; }
+        public virtual Restaurant Restaurant { get; private set; }
     }
 }
