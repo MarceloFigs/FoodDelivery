@@ -49,5 +49,28 @@ namespace FoodDelivery.Controllers
             if (result is false) return BadRequest("Menu item was not created");
             return Ok(menuItem);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMenuItemById([FromQuery] int id) 
+        {
+            var obj = await _menuItemRepository.GetById(id);
+            if (obj is null) return NotFound("Item not found");
+
+            var result = _menuItemRepository.Delete(obj);
+            if (result is false) return BadRequest("Menu item was not deleted");
+
+            return Ok("Item was deleted");
+        }
+
+        [HttpPut]
+        public IActionResult UpdateMenuItem([FromBody] MenuItem menuItem)
+        {
+            if (menuItem is null) return BadRequest("Menu item is not valid");
+
+            var result = _menuItemRepository.Update(menuItem);
+            if (result is false) return BadRequest("Menu item was not updated");
+
+            return Ok("Item was updated");
+        }
     }
 }
