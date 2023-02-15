@@ -26,6 +26,20 @@ namespace FoodDelivery.Controllers
             if (result is null) return NotFound("Order not found");
             return Ok(result);
         }
+        
+        [HttpGet("{foodOrderId}", Name = "GetOrderMenuItemsByFoodOrderId")]
+        public async Task<IActionResult> GetOrderMenuItemsByFoodOrderId([FromQuery] int foodOrderid)
+        {
+            var result = await _orderMenuItemRepository.GetOrderMenuItemsByFoodOrderId(foodOrderid);
+            decimal price = 0;
+            foreach (var item in result)
+            {
+                price += (item.MenuItem.Price * item.QuantityOrdered);
+            }
+
+            if (result is null) return NotFound("Order not found");
+            return Ok(result);
+        }
 
         [HttpPost]
         public IActionResult CreateAnOrderMenuItems([FromBody] OrderMenuItem orderMenuItem) 
