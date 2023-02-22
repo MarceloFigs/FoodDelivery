@@ -37,6 +37,7 @@ namespace FoodDelivery
             });
 
             services.AddScoped<IMenuItemCategoryRepository, MenuItemCategoryRepository>();
+            services.AddScoped<IMenuItemCategoryService, MenuItemCategoryService>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
             services.AddScoped<IMenuItemService, MenuItemService>();
             services.AddScoped<IFoodOrderRepository, FoodOrderRepository>();

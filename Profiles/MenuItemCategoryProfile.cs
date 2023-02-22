@@ -8,7 +8,9 @@ namespace FoodDelivery.Profiles
     {
         public MenuItemCategoryProfile()
         {
+            CreateMap<MenuItemCategoryCreateDto, MenuItemCategory>();
             CreateMap<MenuItemCategory, MenuItemCategoryReadDto>();
+            CreateMap<MenuItemCategoryUpdateDto, MenuItemCategory>();
         }
     }
 }
