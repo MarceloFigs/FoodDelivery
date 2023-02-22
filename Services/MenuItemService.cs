@@ -49,7 +49,5 @@ namespace FoodDelivery.Services
             var menuItem = _mapper.Map<MenuItem>(obj);
             return _menuItemRepository.Update(menuItem);
         }
-
-
     }
 }

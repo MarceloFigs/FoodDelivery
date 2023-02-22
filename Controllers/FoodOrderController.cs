@@ -36,9 +36,6 @@ namespace FoodDelivery.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteFoodOrderById([FromQuery] int id)
         {
-            //var obj = await _foodOrderService.GetById(id);
-            //if (obj is null) return NotFound("Food order not found");
-
             var result = await _foodOrderService.Delete(id);
             if (result is false) return BadRequest("Food order was not deleted");
 

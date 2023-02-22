@@ -1,7 +1,4 @@
-﻿using FoodDelivery.Data.Repository.Interfaces;
-using FoodDelivery.Dtos.FoodOrder;
-using FoodDelivery.Dtos.MenuItem;
-using FoodDelivery.Models;
+﻿using FoodDelivery.Dtos.MenuItem;
 using FoodDelivery.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -56,9 +53,6 @@ namespace FoodDelivery.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMenuItemById([FromQuery] int id) 
         {
-        //    var obj = await _menuItemService.GetById(id);
-        //    if (obj is null) return NotFound("Item not found");
-
             var result = await _menuItemService.Delete(id);
             if (result is false) return BadRequest("Menu item was not deleted");
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FoodDelivery.Services.Interfaces
 {
-    public interface IFoodOrderService// : ICommand<FoodOrderReadDto>, IQuery<FoodOrderReadDto>
+    public interface IFoodOrderService
     {
         bool Create(FoodOrderCreateDto obj);
         Task<bool> Delete(int id);

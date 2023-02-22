@@ -42,6 +42,7 @@ namespace FoodDelivery
             services.AddScoped<IFoodOrderRepository, FoodOrderRepository>();
             services.AddScoped<IFoodOrderService, FoodOrderService>();
             services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
+            services.AddScoped<IOrderMenuItemService, OrderMenuItemService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 

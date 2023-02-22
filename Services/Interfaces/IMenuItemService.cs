@@ -1,6 +1,4 @@
-﻿using FoodDelivery.Dtos.FoodOrder;
-using FoodDelivery.Dtos.MenuItem;
-using FoodDelivery.Models;
+﻿using FoodDelivery.Dtos.MenuItem;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

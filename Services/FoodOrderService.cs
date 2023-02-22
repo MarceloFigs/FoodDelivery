@@ -3,7 +3,6 @@ using FoodDelivery.Data.Repository.Interfaces;
 using FoodDelivery.Dtos.FoodOrder;
 using FoodDelivery.Models;
 using FoodDelivery.Services.Interfaces;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
