@@ -1,5 +1,5 @@
-﻿using FoodDelivery.Data.Repository.Interfaces;
-using FoodDelivery.Models;
+﻿using FoodDelivery.Dtos.MenuItem;
+using FoodDelivery.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -11,40 +11,40 @@ namespace FoodDelivery.Controllers
     public class MenuItemController : ControllerBase
     {
         private readonly ILogger<MenuItemController> _logger;
-        private readonly IMenuItemRepository _menuItemRepository;
-        public MenuItemController(ILogger<MenuItemController> logger, IMenuItemRepository menuItemRepository)
+        private readonly IMenuItemService _menuItemService;
+        public MenuItemController(ILogger<MenuItemController> logger, IMenuItemService menuItemService)
         {
             _logger = logger;
-            _menuItemRepository = menuItemRepository;
+            _menuItemService = menuItemService;
         }
 
-        [HttpGet("{menuItemID}", Name = "GetAllMenuItemsById")]
-        public async Task<IActionResult> GetMenuItemById([FromQuery] int menuItemId)
+        [HttpGet("{menuItemId}", Name = "GetAllMenuItemsById")]
+        public async Task<IActionResult> GetMenuItemById(int menuItemId)
         {
             _logger.LogInformation("Searching menu itens");
-            var result = await _menuItemRepository.GetById(menuItemId);
+            var result = await _menuItemService.GetById(menuItemId);
 
             if (result is null) return NotFound("Item not found");
             return Ok(result);
         }
 
-        [HttpGet("{menuItemByCategory}/menuitemsbycategory", Name = "GetAllMenuItemsByCategory")]
-        public async Task<IActionResult> GetMenuItemByCategory([FromQuery] int menuItemCategoryId) 
+        [HttpGet("{menuItemCategoryId}/menuitemsbycategory", Name = "GetAllMenuItemsByCategory")]
+        public async Task<IActionResult> GetMenuItemByCategory(int menuItemCategoryId) 
         {
             _logger.LogInformation("Searching menu items by categories");
-            var result = await _menuItemRepository.GetAllMenuItemsByCategoryId(menuItemCategoryId);
+            var result = await _menuItemService.GetAllMenuItemsByCategoryId(menuItemCategoryId);
 
             if (result is null) return NotFound("Item not found");
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult CreateMenuItem([FromBody] MenuItem menuItem) 
+        public IActionResult CreateMenuItem([FromBody] MenuItemCreateDto menuItem) 
         {
             _logger.LogInformation("Creating menu items");
             if (menuItem is null) return BadRequest("Menu item was not valid");
 
-            var result = _menuItemRepository.Create(menuItem);
+            var result = _menuItemService.Create(menuItem);
 
             if (result is false) return BadRequest("Menu item was not created");
             return Ok(menuItem);
@@ -53,21 +53,18 @@ namespace FoodDelivery.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMenuItemById([FromQuery] int id) 
         {
-            var obj = await _menuItemRepository.GetById(id);
-            if (obj is null) return NotFound("Item not found");
-
-            var result = _menuItemRepository.Delete(obj);
+            var result = await _menuItemService.Delete(id);
             if (result is false) return BadRequest("Menu item was not deleted");
 
             return Ok("Item was deleted");
         }
 
         [HttpPut]
-        public IActionResult UpdateMenuItem([FromBody] MenuItem menuItem)
+        public IActionResult UpdateMenuItem([FromBody] MenuItemUpdateDto menuItem)
         {
             if (menuItem is null) return BadRequest("Menu item is not valid");
 
-            var result = _menuItemRepository.Update(menuItem);
+            var result = _menuItemService.Update(menuItem);
             if (result is false) return BadRequest("Menu item was not updated");
 
             return Ok("Item was updated");

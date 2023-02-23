@@ -1,6 +1,8 @@
 using FoodDelivery.Data;
 using FoodDelivery.Data.Repository;
 using FoodDelivery.Data.Repository.Interfaces;
+using FoodDelivery.Services;
+using FoodDelivery.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace FoodDelivery
 {
@@ -34,9 +37,14 @@ namespace FoodDelivery
             });
 
             services.AddScoped<IMenuItemCategoryRepository, MenuItemCategoryRepository>();
+            services.AddScoped<IMenuItemCategoryService, MenuItemCategoryService>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+            services.AddScoped<IMenuItemService, MenuItemService>();
             services.AddScoped<IFoodOrderRepository, FoodOrderRepository>();
+            services.AddScoped<IFoodOrderService, FoodOrderService>();
             services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
+            services.AddScoped<IOrderMenuItemService, OrderMenuItemService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

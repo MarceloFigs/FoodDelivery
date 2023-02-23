@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.Migrations
 {
     [DbContext(typeof(FoodDeliveryDbContext))]
-    [Migration("20230208173057_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230211143004_InitialCreation")]
+    partial class InitialCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,9 +56,18 @@ namespace FoodDelivery.Migrations
                             Id = 1,
                             AddressLine1 = "some address",
                             City = "Some City",
-                            PostalCode = 11520040,
+                            PostalCode = 11530040,
                             Region = "Some Region",
                             UnitNumber = 500
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddressLine1 = "some restaurant address",
+                            City = "Some City",
+                            PostalCode = 18150010,
+                            Region = "Some Region",
+                            UnitNumber = 1200
                         });
                 });
 
@@ -84,7 +93,8 @@ namespace FoodDelivery.Migrations
                         new
                         {
                             Id = 1,
-                            FirstName = "Hungry John"
+                            FirstName = "Hungry",
+                            LastName = "John"
                         });
                 });
 
@@ -139,7 +149,8 @@ namespace FoodDelivery.Migrations
                         new
                         {
                             Id = 1,
-                            FirstName = "Hamilton"
+                            FirstName = "Lewis",
+                            LastName = "Hamilton"
                         });
                 });
 
@@ -296,10 +307,10 @@ namespace FoodDelivery.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MenuItemId")
+                    b.Property<int>("FoodOrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("MenuItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantityOrdered")
@@ -307,9 +318,9 @@ namespace FoodDelivery.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MenuItemId");
+                    b.HasIndex("FoodOrderId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("MenuItemId");
 
                     b.ToTable("OrderMenuItem");
                 });
@@ -333,6 +344,21 @@ namespace FoodDelivery.Migrations
                         {
                             Id = 1,
                             Status = "Em andamento"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Status = "Saiu para entrega"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Status = "Cancelado"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Status = "Retornado"
                         });
                 });
 
@@ -359,8 +385,8 @@ namespace FoodDelivery.Migrations
                         new
                         {
                             Id = 1,
-                            AddressId = 1,
-                            Name = "Outback"
+                            AddressId = 2,
+                            Name = "Fake restaurant place"
                         });
                 });
 
@@ -419,15 +445,15 @@ namespace FoodDelivery.Migrations
 
             modelBuilder.Entity("FoodDelivery.Models.OrderMenuItem", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.MenuItem", "MenuItem")
+                    b.HasOne("FoodDelivery.Models.FoodOrder", "FoodOrder")
                         .WithMany()
-                        .HasForeignKey("MenuItemId")
+                        .HasForeignKey("FoodOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodDelivery.Models.FoodOrder", "FoodOrder")
+                    b.HasOne("FoodDelivery.Models.MenuItem", "MenuItem")
                         .WithMany()
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

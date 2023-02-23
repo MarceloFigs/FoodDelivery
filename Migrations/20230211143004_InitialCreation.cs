@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodDelivery.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -212,7 +212,7 @@ namespace FoodDelivery.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(nullable: false),
+                    FoodOrderId = table.Column<int>(nullable: false),
                     MenuItemId = table.Column<int>(nullable: false),
                     QuantityOrdered = table.Column<int>(nullable: false)
                 },
@@ -220,15 +220,15 @@ namespace FoodDelivery.Migrations
                 {
                     table.PrimaryKey("PK_OrderMenuItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderMenuItem_MenuItem_MenuItemId",
-                        column: x => x.MenuItemId,
-                        principalTable: "MenuItem",
+                        name: "FK_OrderMenuItem_FoodOrder_FoodOrderId",
+                        column: x => x.FoodOrderId,
+                        principalTable: "FoodOrder",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderMenuItem_FoodOrder_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "FoodOrder",
+                        name: "FK_OrderMenuItem_MenuItem_MenuItemId",
+                        column: x => x.MenuItemId,
+                        principalTable: "MenuItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -236,17 +236,21 @@ namespace FoodDelivery.Migrations
             migrationBuilder.InsertData(
                 table: "Address",
                 columns: new[] { "Id", "AddressLine1", "AddressLine2", "City", "PostalCode", "Region", "UnitNumber" },
-                values: new object[] { 1, "some address", null, "Some City", 11520040, "Some Region", 500 });
+                values: new object[,]
+                {
+                    { 1, "some address", null, "Some City", 11530040, "Some Region", 500 },
+                    { 2, "some restaurant address", null, "Some City", 18150010, "Some Region", 1200 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Customer",
                 columns: new[] { "Id", "FirstName", "LastName" },
-                values: new object[] { 1, "Hungry John", null });
+                values: new object[] { 1, "Hungry", "John" });
 
             migrationBuilder.InsertData(
                 table: "Driver",
                 columns: new[] { "Id", "FirstName", "LastName" },
-                values: new object[] { 1, "Hamilton", null });
+                values: new object[] { 1, "Lewis", "Hamilton" });
 
             migrationBuilder.InsertData(
                 table: "MenuItemCategory",
@@ -260,7 +264,13 @@ namespace FoodDelivery.Migrations
             migrationBuilder.InsertData(
                 table: "OrderStatus",
                 columns: new[] { "Id", "Status" },
-                values: new object[] { 1, "Em andamento" });
+                values: new object[,]
+                {
+                    { 1, "Em andamento" },
+                    { 2, "Saiu para entrega" },
+                    { 3, "Cancelado" },
+                    { 4, "Retornado" }
+                });
 
             migrationBuilder.InsertData(
                 table: "CustomerAddress",
@@ -270,7 +280,7 @@ namespace FoodDelivery.Migrations
             migrationBuilder.InsertData(
                 table: "Restaurant",
                 columns: new[] { "Id", "AddressId", "Name" },
-                values: new object[] { 1, 1, "Outback" });
+                values: new object[] { 1, 2, "Fake restaurant place" });
 
             migrationBuilder.InsertData(
                 table: "MenuItem",
@@ -329,14 +339,14 @@ namespace FoodDelivery.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderMenuItem_FoodOrderId",
+                table: "OrderMenuItem",
+                column: "FoodOrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderMenuItem_MenuItemId",
                 table: "OrderMenuItem",
                 column: "MenuItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderMenuItem_OrderId",
-                table: "OrderMenuItem",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Restaurant_AddressId",
@@ -350,13 +360,10 @@ namespace FoodDelivery.Migrations
                 name: "OrderMenuItem");
 
             migrationBuilder.DropTable(
-                name: "MenuItem");
-
-            migrationBuilder.DropTable(
                 name: "FoodOrder");
 
             migrationBuilder.DropTable(
-                name: "MenuItemCategory");
+                name: "MenuItem");
 
             migrationBuilder.DropTable(
                 name: "Driver");
@@ -366,6 +373,9 @@ namespace FoodDelivery.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderStatus");
+
+            migrationBuilder.DropTable(
+                name: "MenuItemCategory");
 
             migrationBuilder.DropTable(
                 name: "Restaurant");

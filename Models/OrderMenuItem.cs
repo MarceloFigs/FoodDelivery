@@ -10,7 +10,7 @@ namespace FoodDelivery.Models
         public int Id { get; set; }
 
         [ForeignKey("FoodOrder")]
-        public int OrderId { get; set; }
+        public int FoodOrderId { get; set; }
         public virtual FoodOrder FoodOrder { get; set; }
         
         [ForeignKey("MenuItem")]
