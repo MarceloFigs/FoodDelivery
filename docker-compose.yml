@@ -11,6 +11,12 @@ services:
     ports:
       - "8090:80"
 
+  redis:
+    image: redis
+    container_name: redis_container
+    ports: 
+      - "6379:6379"
+
   db:
     image: mcr.microsoft.com/mssql/server:2017-latest
     environment:

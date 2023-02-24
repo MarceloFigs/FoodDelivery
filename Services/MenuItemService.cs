@@ -3,6 +3,7 @@ using FoodDelivery.Data.Repository.Interfaces;
 using FoodDelivery.Dtos.MenuItem;
 using FoodDelivery.Models;
 using FoodDelivery.Services.Interfaces;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,10 +13,13 @@ namespace FoodDelivery.Services
     {
         private readonly IMenuItemRepository _menuItemRepository;
         private readonly IMapper _mapper;
-        public MenuItemService(IMenuItemRepository menuItemRepository, IMapper mapper)
+        private readonly ICachingService _cachingService;
+        public MenuItemService(IMenuItemRepository menuItemRepository, IMapper mapper,
+            ICachingService cachingService)
         {
             _menuItemRepository = menuItemRepository;
             _mapper = mapper;
+            _cachingService = cachingService;
         }
 
         public bool Create(MenuItemCreateDto obj)
@@ -34,8 +38,16 @@ namespace FoodDelivery.Services
 
         public async Task<IEnumerable<MenuItemReadDto>> GetAllMenuItemsByCategoryId(int menuItemCategoryId)
         {
-            var menuItem = await _menuItemRepository.GetAllMenuItemsByCategoryId(menuItemCategoryId);
-            return _mapper.Map<IEnumerable<MenuItemReadDto>>(menuItem);
+            var cache = await _cachingService.GetAsync(menuItemCategoryId.ToString());
+            MenuItem menuItem;
+
+            if (!string.IsNullOrWhiteSpace(cache))
+            {
+                menuItem = JsonConvert.DeserializeObject<MenuItem>(cache);
+                return _mapper.Map<IEnumerable<MenuItemReadDto>>(menuItem);
+            }
+            var menuItemFromDb = await _menuItemRepository.GetAllMenuItemsByCategoryId(menuItemCategoryId);
+            return _mapper.Map<IEnumerable<MenuItemReadDto>>(menuItemFromDb);
         }
 
         public async Task<MenuItemReadDto> GetById(int id)

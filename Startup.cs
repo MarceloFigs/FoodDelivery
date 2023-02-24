@@ -44,7 +44,14 @@ namespace FoodDelivery
             services.AddScoped<IFoodOrderService, FoodOrderService>();
             services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
             services.AddScoped<IOrderMenuItemService, OrderMenuItemService>();
+            services.AddScoped<ICachingService, CachingService>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddStackExchangeRedisCache(x =>
+            {
+                x.Configuration = Configuration.GetConnectionString("Redis");
+                x.InstanceName = "FoodDelivery_";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
