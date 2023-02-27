@@ -21,7 +21,7 @@ namespace FoodDelivery.Controllers
         [HttpGet("{menuItemId}", Name = "GetAllMenuItemsById")]
         public async Task<IActionResult> GetMenuItemById(int menuItemId)
         {
-            _logger.LogInformation("Searching menu itens");
+            _logger.LogInformation("Searching menu items");
             var result = await _menuItemService.GetById(menuItemId);
 
             if (result is null) return NotFound("Item not found");
@@ -53,6 +53,7 @@ namespace FoodDelivery.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMenuItemById([FromQuery] int id) 
         {
+            _logger.LogInformation("Deleting menu items");
             var result = await _menuItemService.Delete(id);
             if (result is false) return BadRequest("Menu item was not deleted");
 
@@ -62,6 +63,7 @@ namespace FoodDelivery.Controllers
         [HttpPut]
         public IActionResult UpdateMenuItem([FromBody] MenuItemUpdateDto menuItem)
         {
+            _logger.LogInformation("Editing menu items");
             if (menuItem is null) return BadRequest("Menu item is not valid");
 
             var result = _menuItemService.Update(menuItem);

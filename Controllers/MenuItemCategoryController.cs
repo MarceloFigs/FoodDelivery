@@ -42,6 +42,7 @@ namespace FoodDelivery.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMenuItemCategoryById([FromQuery] int id)
         {
+            _logger.LogInformation("Deleting category");
             var result = await _menuItemCategoryService.Delete(id);
             if (result is false) return BadRequest("Menu item category was not deleted");
 
@@ -51,6 +52,7 @@ namespace FoodDelivery.Controllers
         [HttpPut]
         public IActionResult UpdateMenuItemCategory([FromBody] MenuItemCategoryUpdateDto menuItemCategory)
         {
+            _logger.LogInformation("Editing category");
             if (menuItemCategory is null) return BadRequest("Menu item category is not valid");
 
             var result = _menuItemCategoryService.Update(menuItemCategory);

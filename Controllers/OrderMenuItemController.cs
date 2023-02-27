@@ -1,6 +1,4 @@
-﻿using FoodDelivery.Data.Repository.Interfaces;
-using FoodDelivery.Dtos.OrderMenuItemDto;
-using FoodDelivery.Models;
+﻿using FoodDelivery.Dtos.OrderMenuItemDto;
 using FoodDelivery.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,6 +21,7 @@ namespace FoodDelivery.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrderItems([FromQuery] int id) 
         {
+            _logger.LogInformation("Searching order items");
             var result = await _orderMenuItemService.GetById(id);
 
             if (result is null) return NotFound("Order not found");
@@ -32,12 +31,8 @@ namespace FoodDelivery.Controllers
         [HttpGet("{foodOrderId}", Name = "GetOrderMenuItemsByFoodOrderId")]
         public async Task<IActionResult> GetOrderMenuItemsByFoodOrderId(int foodOrderId)
         {
+            _logger.LogInformation("Searching menu items by food order");
             var result = await _orderMenuItemService.GetOrderMenuItemsByFoodOrderId(foodOrderId);
-            decimal price = 0;
-            foreach (var item in result)
-            {
-                price += (item.MenuItem.Price * item.QuantityOrdered);
-            }
 
             if (result is null) return NotFound("Order not found");
             return Ok(result);
@@ -46,6 +41,7 @@ namespace FoodDelivery.Controllers
         [HttpPost]
         public IActionResult CreateAnOrderMenuItems([FromBody] OrderMenuItemCreateDto orderMenuItem) 
         {
+            _logger.LogInformation("Adding menu items to an order");
             var result = _orderMenuItemService.Create(orderMenuItem);
 
             if (result is false) return BadRequest("Order was not made");
@@ -55,9 +51,7 @@ namespace FoodDelivery.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMenuItemById([FromQuery] int id)
         {
-            //var obj = await _orderMenuItemService.GetById(id);
-            //if (obj is null) return NotFound("Order menu item not found");
-
+            _logger.LogInformation("Deleting menu items from order");
             var result = await _orderMenuItemService.Delete(id);
             if (result is false) return BadRequest("Order menu item was not deleted");
 
@@ -67,6 +61,7 @@ namespace FoodDelivery.Controllers
         [HttpPut]
         public IActionResult UpdateMenuItem([FromBody] OrderMenuItemUpdateDto orderMenuItem)
         {
+            _logger.LogInformation("Editing menu items from an order");
             if (orderMenuItem is null) return BadRequest("Order menu item is not valid");
 
             var result = _orderMenuItemService.Update(orderMenuItem);
