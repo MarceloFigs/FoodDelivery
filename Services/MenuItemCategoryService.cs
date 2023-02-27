@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using FoodDelivery.Data.Repository;
-using FoodDelivery.Data.Repository.Interfaces;
-using FoodDelivery.Dtos.MenuItem;
+using FoodDelivery.DataDb.Repository.Interfaces;
 using FoodDelivery.Dtos.MenuItemCategoryDto;
 using FoodDelivery.Models;
 using FoodDelivery.Services.Interfaces;

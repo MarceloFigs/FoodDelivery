@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodDelivery.Migrations
 {
-    public partial class InitialCreation : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -238,7 +238,7 @@ namespace FoodDelivery.Migrations
                 columns: new[] { "Id", "AddressLine1", "AddressLine2", "City", "PostalCode", "Region", "UnitNumber" },
                 values: new object[,]
                 {
-                    { 1, "some address", null, "Some City", 11530040, "Some Region", 500 },
+                    { 1, "some customer address", null, "Some City", 11530040, "Some Region", 500 },
                     { 2, "some restaurant address", null, "Some City", 18150010, "Some Region", 1200 }
                 });
 
@@ -266,10 +266,10 @@ namespace FoodDelivery.Migrations
                 columns: new[] { "Id", "Status" },
                 values: new object[,]
                 {
-                    { 1, "Em andamento" },
-                    { 2, "Saiu para entrega" },
-                    { 3, "Cancelado" },
-                    { 4, "Retornado" }
+                    { 1, "Processing" },
+                    { 2, "Out to deliver" },
+                    { 3, "Canceled" },
+                    { 4, "Returned" }
                 });
 
             migrationBuilder.InsertData(
@@ -288,9 +288,10 @@ namespace FoodDelivery.Migrations
                 values: new object[,]
                 {
                     { 1, 1, "Coca Cola", 599m, 1 },
-                    { 2, 1, "Suco de limão", 399m, 1 },
-                    { 3, 2, "Big Burguer", 3999m, 1 },
-                    { 4, 2, "Chicken Burguer", 3599m, 1 }
+                    { 2, 1, "Lemonade", 399m, 1 },
+                    { 3, 1, "Beer", 999m, 1 },
+                    { 4, 2, "Big Burguer", 3999m, 1 },
+                    { 5, 2, "Chicken Burguer", 3599m, 1 }
                 });
 
             migrationBuilder.CreateIndex(

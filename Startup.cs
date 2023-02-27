@@ -1,6 +1,6 @@
-using FoodDelivery.Data;
-using FoodDelivery.Data.Repository;
-using FoodDelivery.Data.Repository.Interfaces;
+using FoodDelivery.DataDb;
+using FoodDelivery.DataDb.Repository;
+using FoodDelivery.DataDb.Repository.Interfaces;
 using FoodDelivery.Services;
 using FoodDelivery.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
